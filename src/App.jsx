@@ -1,32 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil'
-import { jobsAtom, messagingAtom, networkAtom, notificationAtom, totalNotificationSelector } from './atom'
 
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { notifications, totalNotificationSelector } from './atom'
+import { useEffect } from 'react'
+import axios from "axios"
 function App() {
   return <RecoilRoot>
     <MainApp />
   </RecoilRoot>
- 
 }
 
-function MainApp(){
-  const networknotificationCount = useRecoilValue(networkAtom) 
-  const jobCount = useRecoilValue(jobsAtom) 
-  const notificationCount = useRecoilValue(notificationAtom)
-  const messagingCount = useRecoilValue(messagingAtom) 
-  const totalNotificationSelectorCount = useRecoilValue(totalNotificationSelector)
+function MainApp() {
+  const [networkCount, setNetworkCount] = useRecoilState(notifications)
+  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
+
+
   return (
     <>
-    <button>Home</button>
+      <button>Home</button>
+      
+      <button>My network ({networkCount.networks >= 100 ? "99+" : networkCount.networks})</button>
+      <button>Jobs {networkCount.jobs}</button>
+      <button>Messaging ({networkCount.messaging})</button>
+      <button>Notifications ({networkCount.notifications})</button>
 
-    <button>My network {networknotificationCount >=100?"99+": networknotificationCount}</button>
-    <button>Jobs {jobCount}</button>
-    <button>Messaging {messagingCount}</button>
-    <button>Notification {notificationCount}</button>
-    <button>Me {totalNotificationSelectorCount}</button>
+      <button>Me ({totalNotificationCount})</button>
     </>
   )
 }
