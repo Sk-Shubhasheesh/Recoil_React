@@ -1,4 +1,4 @@
-                     # Recoil Learing 😍
+# Recoil Learing 😍
 
 ### What is Recoil ?
 ➡ Recoil js is another state management library for React.
@@ -76,3 +76,23 @@ function ButtonUpdater(){
 }
 
 ```
+
+### Selectors
+*️⃣ Suppose we make a Linkedlnbar and lets we want to show all notification count above your avatar so can we make another atome, no we know that all the notication which show above the avatar is sum of all notication(My Netwrok, Jobs etc) so we want use selector for making this. Selector is derived from other atoms. 
+
+```.js
+import {selector} from "recoil"
+export const totalNotificationSelector = selector({
+    key: "totalNotificationSelector",
+    get: ({get} )=> {
+        const networkAtomCount= get(networkAtom)
+        const jobsAtomCount = get(jobsAtom)
+        const notificationAtomCount = get(notificationAtom)
+        const messagingAtomCount = get(messagingAtom)
+        return networkAtomCount + jobsAtomCount + notificationAtomCount + messagingAtomCount
+    }
+})
+```
+
+### What difference between useMemo() & Selectors ?
+➡ If the logic for computing the total count is needed in multiple components, defining it once in a selector allows you to reuse that logic across different parts of your application without duplicating code.
